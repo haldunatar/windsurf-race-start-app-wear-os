@@ -1,8 +1,11 @@
 package com.example.windsurf_race_start_app_wear_os.presentation.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -27,28 +30,43 @@ fun StartScreen() {
     }
 }
 
+@SuppressLint()
 @Composable
 fun TimePicker() {
-    var startFormat = 4
+    val startFormat = remember {
+        mutableStateOf(4)
+    }
 
     Box{
-        Text( startFormat.toString())
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Button(
                 onClick = {
-                    startFormat = 4
+                    startFormat.value = 4
                 },
-                modifier = Modifier.background(Color.Transparent, MaterialTheme.shapes.small)
+                modifier = Modifier,
+                enabled = true,
+                colors = if (startFormat.value == 4) {
+                    ButtonDefaults.primaryButtonColors()
+                } else {
+                    ButtonDefaults.secondaryButtonColors()
+                }
             ) {
                 Text("4 min.")
             }
             Button(
                 onClick = {
-                    startFormat = 5
+                    startFormat.value = 5
                 },
+                modifier = Modifier,
+                enabled = true,
+                colors = if (startFormat.value == 4) {
+                    ButtonDefaults.secondaryButtonColors()
+                } else {
+                    ButtonDefaults.primaryButtonColors()
+                }
             ) {
                 Text("5 min.")
             }

@@ -12,12 +12,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.MaterialTheme.colors
+import androidx.wear.compose.material.Text
+import com.example.windsurf_race_start_app_wear_os.presentation.theme.CountdownScreen
 import com.example.windsurf_race_start_app_wear_os.presentation.theme.StartScreen
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +36,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
+    val viewType = remember {
+        mutableStateOf("Start")
+    }
     MaterialTheme(
         colors = MaterialTheme.colors,
         typography = MaterialTheme.typography,
@@ -42,7 +49,15 @@ fun App() {
                 .fillMaxSize()
                 .background(Color.Black),
         ) {
-            StartScreen()
+            if (viewType.value == "Start") {
+                StartScreen() {
+                    viewType.value = it
+                }
+            } else {
+                CountdownScreen()
+            }
+
+
         }
     }
 }

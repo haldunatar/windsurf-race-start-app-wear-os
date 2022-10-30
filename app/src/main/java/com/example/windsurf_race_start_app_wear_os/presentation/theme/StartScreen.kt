@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,40 +38,47 @@ fun TimePicker() {
         mutableStateOf(4)
     }
 
-    Box{
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        TimePickerButton(
+            4,
+            startFormat.value,
+            "4 min.",
         ) {
-            Button(
-                onClick = {
-                    startFormat.value = 4
-                },
-                modifier = Modifier,
-                enabled = true,
-                colors = if (startFormat.value == 4) {
-                    ButtonDefaults.primaryButtonColors()
-                } else {
-                    ButtonDefaults.secondaryButtonColors()
-                }
-            ) {
-                Text("4 min.")
-            }
-            Button(
-                onClick = {
-                    startFormat.value = 5
-                },
-                modifier = Modifier,
-                enabled = true,
-                colors = if (startFormat.value == 4) {
-                    ButtonDefaults.secondaryButtonColors()
-                } else {
-                    ButtonDefaults.primaryButtonColors()
-                }
-            ) {
-                Text("5 min.")
-            }
+            startFormat.value = it
         }
+        TimePickerButton(
+            5,
+            startFormat.value,
+            "5 min.",
+        ) {
+            startFormat.value = it
+        }
+    }
+}
+
+@Composable
+fun TimePickerButton(
+    defaultFormatValue: Int,
+    startFormatStateValue: Int,
+    label: String,
+    updateFormatState: (Int) -> Unit
+) {
+    Button(
+        onClick = {
+            updateFormatState(defaultFormatValue)
+        },
+        modifier = Modifier,
+        enabled = true,
+        colors = if (startFormatStateValue == defaultFormatValue) {
+            ButtonDefaults.primaryButtonColors()
+        } else {
+            ButtonDefaults.secondaryButtonColors()
+        }
+    ) {
+        Text(label)
     }
 }
 

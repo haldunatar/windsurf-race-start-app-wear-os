@@ -9,34 +9,42 @@ package com.example.windsurf_race_start_app_wear_os.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.wear.compose.material.Text
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.MaterialTheme.colors
+import com.example.windsurf_race_start_app_wear_os.presentation.theme.StartScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             App()
+            // some changes
         }
     }
 }
 
 @Composable
 fun App() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    MaterialTheme(
+        colors = MaterialTheme.colors,
+        typography = MaterialTheme.typography,
+        shapes = MaterialTheme.shapes
     ) {
-        Text("Let's have fun!")
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
+        ) {
+            StartScreen()
+        }
     }
-
 }
 
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)

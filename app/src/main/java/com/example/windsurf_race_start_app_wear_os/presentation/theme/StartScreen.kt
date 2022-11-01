@@ -2,10 +2,7 @@ package com.example.windsurf_race_start_app_wear_os.presentation.theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -22,15 +19,15 @@ fun StartScreen(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimePicker()
+        CountdownFormat()
         StartButton(updateViewTypeState)
     }
 }
 
 @SuppressLint()
 @Composable
-fun TimePicker() {
-    val startFormat = remember {
+fun CountdownFormat() {
+    var format by remember {
         mutableStateOf(4)
     }
 
@@ -38,25 +35,13 @@ fun TimePicker() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TimePickerButton(
-            4,
-            startFormat.value,
-            "4 min.",
-        ) {
-            startFormat.value = it
-        }
-        TimePickerButton(
-            5,
-            startFormat.value,
-            "5 min.",
-        ) {
-            startFormat.value = it
-        }
+        CountdownFormatButton(3, format, "3 min.") { format = it }
+        CountdownFormatButton(4, format, "4 min.") { format = it }
     }
 }
 
 @Composable
-fun TimePickerButton(
+fun CountdownFormatButton(
     defaultFormatValue: Int,
     startFormatStateValue: Int,
     label: String,
@@ -73,9 +58,7 @@ fun TimePickerButton(
         } else {
             ButtonDefaults.secondaryButtonColors()
         }
-    ) {
-        Text(label)
-    }
+    ) { Text(label) }
 }
 
 @Composable
@@ -90,9 +73,3 @@ fun StartButton(
         Text("Start")
     }
 }
-//
-//@Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
-//@Composable
-//fun DefaultPreview() {
-//    StartScreen()
-//}

@@ -11,9 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Devices
@@ -36,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    val viewType = remember {
+    var viewType by remember {
         mutableStateOf("Start")
     }
     MaterialTheme(
@@ -49,15 +47,15 @@ fun App() {
                 .fillMaxSize()
                 .background(Color.Black),
         ) {
-            if (viewType.value == "Start") {
+            if (viewType == "Start") {
                 StartScreen() {
-                    viewType.value = it
+                    println("viewType, $viewType")
+                    viewType = it
                 }
             } else {
+                println("viewType, $viewType")
                 CountdownScreen()
             }
-
-
         }
     }
 }

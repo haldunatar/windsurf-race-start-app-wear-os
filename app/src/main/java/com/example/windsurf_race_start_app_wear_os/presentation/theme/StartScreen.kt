@@ -9,6 +9,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.*
+import com.example.windsurf_race_start_app_wear_os.presentation.state.UIStateContainer
 
 @Composable
 fun StartScreen(
@@ -27,16 +28,15 @@ fun StartScreen(
 @SuppressLint()
 @Composable
 fun CountdownFormat() {
-    var format by remember {
-        mutableStateOf(4)
-    }
+    val uiState = UIStateContainer()
+    val currentFormat = uiState.getStartFormatState()
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        CountdownFormatButton(3, format, "3 min.") { format = it }
-        CountdownFormatButton(4, format, "4 min.") { format = it }
+        CountdownFormatButton(3, currentFormat, "3 min.") { uiState.updateStartFormatState(it) }
+        CountdownFormatButton(4, currentFormat, "4 min.") { uiState.updateStartFormatState(it) }
     }
 }
 

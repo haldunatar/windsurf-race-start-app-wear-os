@@ -5,45 +5,45 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.*
-import com.example.windsurf_race_start_app_wear_os.presentation.state.UIStateContainer
+import com.example.windsurf_race_start_app_wear_os.presentation.state.UIState
 
 @Composable
 fun StartScreen(
-    updateViewTypeState: (String) -> Unit
+    uiState: UIState
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CountdownFormat()
-        StartButton(updateViewTypeState)
+        CountdownFormatOptions(uiState)
+        StartButton(uiState)
     }
 }
 
 @SuppressLint()
 @Composable
-fun CountdownFormat() {
-    val uiState = UIStateContainer()
-    val currentFormat = uiState.getStartFormatState()
-
+fun CountdownFormatOptions(uiState: UIState) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        CountdownFormatButton(3, currentFormat, "3 min.") { uiState.updateStartFormatState(it) }
-        CountdownFormatButton(4, currentFormat, "4 min.") { uiState.updateStartFormatState(it) }
+        CountdownFormatOptionButton(3, uiState.currentCountdownFormat, "3 min.") {
+            uiState.updateStartFormatState(it)
+            uiState.updateCountdown(it * 60)
+        }
+        CountdownFormatOptionButton(4, uiState.currentCountdownFormat, "4 min.") {
+            uiState.updateStartFormatState(it)
+            uiState.updateCountdown(it * 60)
+        }
     }
 }
 
 @Composable
-fun CountdownFormatButton(
+fun CountdownFormatOptionButton(
     defaultFormatValue: Int,
-    startFormatStateValue: Int,
+    currentFormat: Int,
     label: String,
     updateFormatState: (Int) -> Unit
 ) {
@@ -53,7 +53,7 @@ fun CountdownFormatButton(
         },
         modifier = Modifier,
         enabled = true,
-        colors = if (startFormatStateValue == defaultFormatValue) {
+        colors = if (currentFormat == defaultFormatValue) {
             ButtonDefaults.primaryButtonColors()
         } else {
             ButtonDefaults.secondaryButtonColors()
@@ -62,12 +62,11 @@ fun CountdownFormatButton(
 }
 
 @Composable
-fun StartButton(
-    updateViewTypeState: (String) -> Unit
-) {
+fun StartButton(uiState: UIState) {
     Button(
         onClick = {
-            updateViewTypeState("Countdown")
+            uiState.updateViewTypeState("Countdown")
+            uiState.updateIsTimerStartedState(true)
         },
     ) {
         Text("Start")

@@ -2,23 +2,40 @@ package com.example.windsurf_race_start_app_wear_os.presentation.state
 
 import androidx.compose.runtime.*
 
-class UIState(
-    format: MutableState<Int>
+@Stable
+class UIState constructor(
+    viewType: MutableState<String>,
+    countdownFormat: MutableState<Int>,
+    isCountdownStarted: MutableState<Boolean>,
+    countdown: MutableState<Int>
 ) {
-    private var startFormatState = format
+    private var _viewTypeState = viewType
+    private var _countdownFormatState = countdownFormat
+    private var _isCountdownStarted = isCountdownStarted
+    private var _countdown = countdown
 
-    public final fun updateStartFormatState(newValue: Int): Unit {
+    public var currentViewType = _viewTypeState.value
+    public var currentCountdownFormat = _countdownFormatState.value
+    public var isCountdownStarted = _isCountdownStarted.value
+    public var countdown = _countdown.value
 
-        startFormatState.value = newValue;
+    fun updateStartFormatState(newValue: Int) {
+        _countdownFormatState.value = newValue
     }
 
-    public final fun getStartFormatState(): Int {
-        return startFormatState.value;
+    fun updateViewTypeState(newValue: String) {
+        _viewTypeState.value = newValue
     }
-}
 
-@Composable
-fun UIStateContainer(): UIState {
-    val format = remember { mutableStateOf(4) }
-    return UIState(format)
+    fun updateIsTimerStartedState(newValue: Boolean) {
+        _isCountdownStarted.value = newValue
+    }
+
+    fun updateCountdown(newValue: Int) {
+        _countdown.value = newValue
+    }
+
+    fun countdown() {
+        _countdown.value -= 1
+    }
 }

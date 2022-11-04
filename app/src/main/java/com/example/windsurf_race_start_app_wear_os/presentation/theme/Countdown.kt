@@ -83,11 +83,7 @@ fun Timer(uiState: UIState) {
         Text("$minutes:$seconds",
             modifier = Modifier.clickable {
                 if (uiState.countdown != 0) {
-                    if (uiState.isCountdownStopped) {
-                        uiState.updateIsCountdownStoppedState(false)
-                    } else {
-                        uiState.updateIsCountdownStoppedState(true)
-                    }
+                    uiState.updateIsCountdownStoppedState(!uiState.isCountdownStopped)
                 }
 
             },

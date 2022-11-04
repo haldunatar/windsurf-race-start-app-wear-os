@@ -1,9 +1,11 @@
 package com.example.windsurf_race_start_app_wear_os.presentation.theme
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,42 +18,79 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun CountdownScreen(uiState: UIState) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-//        CountdownButtons()
+        AnimatedVisibility(visible = uiState.isCountdownStopped) {
+            CountdownButtons(uiState)
+        }
         Timer(uiState)
     }
 }
 
 @Composable
-fun CountdownButtons() {
-    
+fun CountdownButtons(uiState: UIState) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.Top
+    ) {
+        Button(onClick = {
+            uiState.updateCountdown(uiState.currentCountdownFormat * 60)
+            uiState.updateIsCountdownStoppedState(false)
+        }) {
+            Icon(
+                Icons.Filled.Refresh,
+                contentDescription = "Refresh",
+                modifier = Modifier.size(ButtonDefaults.ExtraSmallButtonSize)
+            )
+        }
+        Button(onClick = {
+            uiState.resetState()
+        }) {
+            Icon(
+                Icons.Filled.Close,
+                contentDescription = "Close",
+                modifier = Modifier.size(ButtonDefaults.ExtraSmallButtonSize)
+            )
+        }
+    }
 }
 
 @Composable
 fun Timer(uiState: UIState) {
-    val currentFormat = uiState.currentCountdownFormat
     val isTimerStarted = uiState.isCountdownStarted
-    val countdownSeconds = currentFormat * 60
+    val isTimerStopped = uiState.isCountdownStopped
     val countdown = uiState.countdown
 
-    LaunchedEffect(key1 = countdown, key2 = isTimerStarted) {
-        if(countdown != 0 && isTimerStarted) {
-            if (countdown != countdownSeconds) delay(1000L)
+    LaunchedEffect(key1 = countdown, key2 = isTimerStarted, key3 = isTimerStopped) {
+        if(countdown != 0 && isTimerStarted && !isTimerStopped) {
+            delay(1000L)
             uiState.countdown()
+        } else if (countdown == 0) {
+            uiState.updateIsCountdownStoppedState(true)
         }
     }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = Modifier.fillMaxSize()
     ) {
         val minutes = countdown / 60
         val leftSeconds = countdown - minutes * 60
-        val seconds = if(leftSeconds < 10) "0$leftSeconds" else leftSeconds
+        val seconds = if (leftSeconds < 10) "0$leftSeconds" else leftSeconds
 
-        Text("$minutes:$seconds", modifier = Modifier, Color.White, 75.sp, fontWeight = FontWeight.Bold)
+        Text("$minutes:$seconds",
+            modifier = Modifier.clickable {
+                if (uiState.countdown != 0) {
+                    if (uiState.isCountdownStopped) {
+                        uiState.updateIsCountdownStoppedState(false)
+                    } else {
+                        uiState.updateIsCountdownStoppedState(true)
+                    }
+                }
+
+            },
+            Color.White, 85.sp, fontWeight = FontWeight.Bold)
     }
 }

@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.*
 import com.example.windsurf_race_start_app_wear_os.presentation.state.UIState
+import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.countdownScreen
 
 @Composable
 fun StartScreen(
@@ -65,8 +66,8 @@ fun CountdownFormatOptionButton(
 fun StartButton(uiState: UIState) {
     Button(
         onClick = {
-            uiState.updateViewTypeState("Countdown")
-            uiState.updateIsTimerStartedState(true)
+            uiState.updateViewTypeState(countdownScreen)
+            uiState.updateIsCountdownStartedState(true)
         },
     ) {
         Text("Start")

@@ -1,15 +1,8 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.example.windsurf_race_start_app_wear_os.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -22,6 +15,7 @@ import androidx.wear.compose.material.MaterialTheme
 import com.example.windsurf_race_start_app_wear_os.presentation.state.UIState
 import com.example.windsurf_race_start_app_wear_os.presentation.theme.CountdownScreen
 import com.example.windsurf_race_start_app_wear_os.presentation.theme.StartScreen
+import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,17 +28,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    val defaultCountdownFormat = 4
     /* is the type of the screen that will be shown: Start or Countdown */
-    val viewTypeState = rememberSaveable { mutableStateOf("Start") }
+    val viewTypeState = rememberSaveable { mutableStateOf(defaultViewTypeState) }
     /* is the duration of chosen countdown format(default 4): 4 minutes of 3 minutes */
     val countdownFormat = rememberSaveable { mutableStateOf(defaultCountdownFormat) }
     /* countdown toggle state: true or false */
-    val isCountdownStarted = rememberSaveable { mutableStateOf(false) }
+    val isCountdownStarted = rememberSaveable { mutableStateOf(defaultIsCountdownStarted) }
+    /* countdown toggle state: true or false */
+    val isCountdownStopped = rememberSaveable { mutableStateOf(defaultIsCountdownStopped) }
     /* is the current state of countdown that decreased */
     val currentCountDownState =  rememberSaveable { mutableStateOf(defaultCountdownFormat * 60) }
 
-    val uiState = UIState(viewTypeState, countdownFormat, isCountdownStarted, currentCountDownState)
+    val uiState = UIState(viewTypeState, countdownFormat, isCountdownStarted, isCountdownStopped, currentCountDownState)
 
     MaterialTheme(
         colors = MaterialTheme.colors,
@@ -56,7 +51,7 @@ fun App() {
                 .fillMaxSize()
                 .background(Color.Black),
         ) {
-            if (uiState.currentViewType == "Start") {
+            if (uiState.currentViewType == startScreen) {
                 StartScreen(uiState)
             } else {
                 CountdownScreen(uiState)

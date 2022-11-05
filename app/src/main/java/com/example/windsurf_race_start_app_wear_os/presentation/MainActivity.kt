@@ -26,6 +26,7 @@ import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.
 
 class MainActivity : ComponentActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /* Prevent timeout activity */
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun App() {
     /* is the type of the screen that will be shown: Start or Countdown */

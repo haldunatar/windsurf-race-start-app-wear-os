@@ -1,6 +1,7 @@
 package com.example.windsurf_race_start_app_wear_os.presentation
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -20,6 +21,8 @@ import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /* Prevent timeout activity */
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContent {
             App()
         }

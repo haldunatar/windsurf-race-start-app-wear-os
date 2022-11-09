@@ -6,7 +6,6 @@ import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.
 import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.defaultIsCountdownStopped
 import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.defaultViewTypeState
 
-@Stable
 class UIState constructor(
     viewType: MutableState<String>,
     countdownFormat: MutableState<Int>,

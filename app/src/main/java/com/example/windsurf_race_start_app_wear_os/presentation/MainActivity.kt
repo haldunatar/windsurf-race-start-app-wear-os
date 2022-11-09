@@ -2,8 +2,6 @@ package com.example.windsurf_race_start_app_wear_os.presentation
 
 import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,8 +18,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.material.MaterialTheme
 import com.example.windsurf_race_start_app_wear_os.presentation.state.UIState
-import com.example.windsurf_race_start_app_wear_os.presentation.theme.CountdownScreen
-import com.example.windsurf_race_start_app_wear_os.presentation.theme.StartScreen
+import com.example.windsurf_race_start_app_wear_os.presentation.screens.CountdownScreen
+import com.example.windsurf_race_start_app_wear_os.presentation.screens.StartScreen
 import com.example.windsurf_race_start_app_wear_os.presentation.utils.constants.*
 
 class MainActivity : ComponentActivity() {
@@ -72,6 +70,7 @@ fun App() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {

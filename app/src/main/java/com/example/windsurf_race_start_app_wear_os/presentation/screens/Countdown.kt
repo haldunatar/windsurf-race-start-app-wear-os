@@ -1,4 +1,4 @@
-package com.example.windsurf_race_start_app_wear_os.presentation.theme
+package com.example.windsurf_race_start_app_wear_os.presentation.screens
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility

@@ -1,4 +1,4 @@
-package com.example.windsurf_race_start_app_wear_os.presentation.theme
+package com.example.windsurf_race_start_app_wear_os.presentation.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
@@ -52,8 +52,6 @@ fun CountdownFormatOptionButton(
         onClick = {
             updateFormatState(defaultFormatValue)
         },
-        modifier = Modifier,
-        enabled = true,
         colors = if (currentFormat == defaultFormatValue) {
             ButtonDefaults.primaryButtonColors()
         } else {
